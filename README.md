@@ -12,7 +12,7 @@
 #### 1) Grant Distribution amongst Agencies
 #### 2) Grant Distribution amongst States
 #### 3) Grant Distribution amongst Companies
-#### 4) Average PI Education levels
+#### 4) PI Education levels
 
 ## How to run
 > 1) run git clone https://github.com/cabmeron/sba-analysis
