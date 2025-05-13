@@ -1,0 +1,60 @@
+@startjson models
+{
+  "agencies": [
+        {
+            "agencyName": "Department of Defense",
+            "agencyAwards": [
+                {
+                    "awardTitle": "Buttcheek Spreading Gas",
+                    "awardYear": 2020,
+                    "awardAmount": 200000,
+                    "awardPhase": "Phase I",
+                    "awardProgram": "SBIR",        
+                    "awardPiName": "Johnson Sniffler",
+                    "awardPiEmail": "jsniffles@.edu",
+                    "awardPiPhone": "100-100-100",
+                    "awardPiEducaiton": "PHD"
+                },
+                {
+                    "awardTitle": "Terrorism Anialiater",
+                    "awardYear": 2019,
+                    "awardAmount": 200000,
+                    "awardPhase": "Phase II",
+                    "awardProgram": "SBIR",
+                    "awardPiName": "Rufus Mcgree",
+                    "awardPiEmail": "rmcgee@.edu",
+                    "awardPiPhone": "110-110-110",
+                    "awardPiEducaiton": "PHD"
+                }
+            ]          
+        },
+        {
+            "agencyName": "National Science Foundation",
+            "agencyAwards": [
+                {
+                    "awardTitle": "Another AI System for Education",
+                    "awardYear": 2020,
+                    "awardAmount": 200000,
+                    "awardPhase": "Phase I",
+                    "awardProgram": "SBIR",
+                    "awardPiName": "Gobert Monkey",
+                    "awardPiEmail": "gmonkey@.edu",
+                    "awardPiPhone": "120-120-120",
+                    "awardPiEducaiton": "M.S."
+                },
+                {
+                    "awardTitle": "Dissolvable Goo for Vehicular Longevity",
+                    "awardYear": 2019,
+                    "awardAmount": 200000,
+                    "awardPhase": "Phase II",
+                    "awardProgram": "SBIR",
+                    "awardPiName": "Rupert Mankey",
+                    "awardPiEmail": "rmankey@.edu",
+                    "awardPiPhone": "130-130-130",
+                    "awardPiEducaiton": "PHD"
+                }
+            ]           
+        }
+    ]
+}
+@endjson
