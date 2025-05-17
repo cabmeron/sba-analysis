@@ -1,3 +1,4 @@
+import copy
 import os
 import json
 import jsonpickle
@@ -34,6 +35,23 @@ def get_agency_stats(df):
         }
 
     return res
+
+def get_agencies_yearly_awards(df: DataFrame):
+
+    res = {}
+
+    for agency in get_agencies(df):
+
+        res[agency] = copy.deepcopy(AWARD_YEARS_DICT)
+
+        agency_data = df.loc[df['Agency'] == agency]
+
+        for year in agency_data['Award Year']:
+            res[agency][year] += 1
+
+    # return DataFrame.from_dict(res).transpose().to_csv(f'{OUTPUT_FILE_PATH}/{datetime.now()}.csv')
+    return DataFrame.from_dict(res).transpose()
+
 
 def iterate(df: DataFrame):
     Companies = defaultdict(list)
