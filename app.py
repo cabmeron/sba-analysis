@@ -10,6 +10,8 @@ from collections import Counter
 from streamlit.web import cli as stcli
 
 def main():
+
+    st.title("SBA AWARD ANALYSIS")
     
     df = reduce_data(INPUT_FILE_PATH, None, PHASE1)
 
@@ -17,36 +19,14 @@ def main():
 
     df.index.name = 'Agency'
 
-    Agencies = st.multiselect(
-        "Choose Agencies", list(df.index), ["Department of Defense", "National Science Foundation"]
-    )
-
-    if not Agencies:
-        st.error("Please Select at least one Agency")
+    data = df.loc[DEPARTMENTS]
     
-    else:
+    with st.container():
         
-        data = df.loc[DEPARTMENTS]
-        st.subheader("Awards Per Year")
-
-        data = data.T.reset_index()
-        data = pd.melt(data, id_vars=["index"]).rename(
-            columns={"index": "year", "value": "Awards Per Year"}
-        )
-
-        pprint(data)
-
-        # chart = (
-        #     alt.Chart(data)
-        #     .mark_area(opacity=0.3)
-        #     .encode(
-        #         x="Award Year",
-        #         y="Award Amount",
-        #         color="Agency:N"   
-        #     )   
-        # )
-
-        # st.altair_chart(chart, use_container_width=True)
+        st.write("Agencies & Awards (1987-2025)")
+        st.bar_chart(data, horizontal=True, width=1200, height=800)
+    
+    st.snow()
 
 if __name__ == "__main__":
     if runtime.exists():
