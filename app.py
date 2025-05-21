@@ -12,16 +12,18 @@ from streamlit.web import cli as stcli
 
 def root_project_header():
     
-    st.header(":red[SBA] :blue[AWARD] ANALYSIS (1985 - 2025)", divider=True)
+    st.header(":red[SBA] :blue[AWARD] ANALYSIS 1983-2025", divider=True)
 
 def root_project_description_expander():
 
     with st.container(border=True):
 
-        with st.expander("What is the SBA?"):
+        st.write("Frequently Asked Questions")
+
+        with st.expander("What is the SBA?", expanded=True):
             st.write("An Independent Agency of the United States government that provides support to entrepreneurs and small businesses")
 
-        with st.expander("What are SBA Awards?"):
+        with st.expander("What are SBA Awards?", expanded=True):
             st.write("Grants & Contracts for commercializable Research & Development ")
 
 def get_agencies_and_awards_data():
@@ -39,8 +41,6 @@ def agencies_awards_per_year_charts_tab():
      data = get_agencies_and_awards_data()
 
      with st.container():
-
-        st.write("SBIR Awards Per Year, Agencies (X, Y)")
         
         tab1, tab2= st.tabs(["Bar Chart", "Line Chart"])
 
@@ -59,36 +59,32 @@ def dei_bar_charts():
 
     with st.container():
 
-        st.write("DEI Award Distributions")
-
         tab1, tab2 = st.tabs(["Gender", "Economic Advantage"])
 
         with tab1:
-            
-            st.write('Disadvantaged, Advantaged, and Unknown Award Distribution per Agency')
-
+        
             st.bar_chart(data[0], horizontal=True, height=800)
         
         with tab2:
 
-            st.write('Female, Male, and Unknown Owned Award Distribution per Agency ')
-
             st.bar_chart(data[1], horizontal=True, height=800)
         
-    
+@st.cache_data
 def plot_agencies_and_awards():
 
-    agencies_awards_per_year_charts_tab()
+    with st.expander('Awards Per Year Per Agency', expanded=True):
 
-    dei_bar_charts()
+        agencies_awards_per_year_charts_tab()
+
+    with st.expander('DEI Award Distribtions Per Agency', expanded=True):
+
+        dei_bar_charts()
     
 def main():
 
     root_project_header()
-    root_project_description_expander()
-
-    with st.spinner("Computing"): 
-        plot_agencies_and_awards()
+    root_project_description_expander()    
+    plot_agencies_and_awards()
 
     st.snow()
 
