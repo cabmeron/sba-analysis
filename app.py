@@ -1,4 +1,5 @@
 import sys
+import time
 import altair as alt
 import streamlit as st
 from constants import *
@@ -9,9 +10,8 @@ from streamlit import runtime
 from collections import Counter
 from streamlit.web import cli as stcli
 
-def main():
+def get_agencies_and_awards_data():
 
-    st.title("SBA AWARD ANALYSIS")
     
     df = reduce_data(INPUT_FILE_PATH, None, PHASE1)
 
@@ -19,13 +19,29 @@ def main():
 
     df.index.name = 'Agency'
 
-    data = df.loc[DEPARTMENTS]
-    
+    return df.loc[DEPARTMENTS]
+
+def plot_agencies_and_awards():
+
+    data = get_agencies_and_awards_data()
+
     with st.container():
+
+        st.write("Agencies & Awards Per Year (X, Y)")
         
-        st.write("Agencies & Awards (1987-2025)")
-        st.bar_chart(data, horizontal=True, width=1200, height=800)
+        tab1, tab2 = st.tabs(["Bar Chart", "Line Chart"])
+
+        with tab1:
+            st.bar_chart(data, horizontal=True, height=800)
     
+        with tab2:
+            st.line_chart(data, height=800)
+
+
+def main():
+    st.header(":red[SBA] :blue[AWARD] ANALYSIS (1985 - 2025)", divider=True)
+    with st.spinner("Computing"):
+        plot_agencies_and_awards()
     st.snow()
 
 if __name__ == "__main__":
