@@ -23,19 +23,47 @@ def get_agency_stats(df):
         agency_data = df.loc[df['Agency'] == agency]
 
         res[agency] = {
-            "pis": get_prinicpial_investigators(agency_data),
+            # "pis": get_prinicpial_investigators(agency_data),
             "male_owned": get_male_owned(agency_data),
             "female_owned": get_female_owned(agency_data),
             "unknown_owned": get_unknown_owned(agency_data),
-            "awards_per_year": get_awards_per_year(agency_data),
-            "companies_awarded": get_companies_awarded(agency_data),
+            # "awards_per_year": get_awards_per_year(agency_data),
+            # "companies_awarded": get_companies_awarded(agency_data),
+        }
+
+    return res
+
+def get_agency_female_ownership_df(df):
+
+    res = {}
+
+    for agency in get_agencies(df):
+        
+        agency_data = df.loc[df['Agency'] == agency]
+
+        res[agency] = {
+            "male_owned": get_male_owned(agency_data),
+            "female_owned": get_female_owned(agency_data),
+            "unknown_owned": get_unknown_owned(agency_data),
+        }
+
+    return res
+
+def get_agency_disadvantaged_ownership_df(df):
+
+    res = {}
+
+    for agency in get_agencies(df):
+        
+        agency_data = df.loc[df['Agency'] == agency]
+
+        res[agency] = {
             "disadvantage_owned": get_disadvantaged_owned(agency_data),
             "non_disadvtantage_owned": get_non_disadvantaged_owned(agency_data),
             "unknown_disadvantage_owned": get_unknown_disadvantaged_owned(agency_data),
         }
 
     return res
-
 
 def get_agencies_yearly_awards(df: DataFrame, inDollars=False):
 
