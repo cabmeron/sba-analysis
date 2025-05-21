@@ -1,4 +1,5 @@
 import pandas as pd
+from zipfile import ZipFile
 
 """
     EXTRACTION GOALS:
@@ -11,7 +12,9 @@ import pandas as pd
 """
 def load_data(file_path):
     try:
-        return pd.read_csv(file_path)
+        with ZipFile(file_path) as zf:
+            with zf.open('award_data_no_abstract.csv', 'r') as infile:
+                return pd.read_csv(infile)
     except:
         return FileNotFoundError
 

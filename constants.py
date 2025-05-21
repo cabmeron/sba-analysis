@@ -7,7 +7,7 @@ PROGRAM_STTR = "STTR"
 ALL_PROGRAMS = "Programs"
 
 OUTPUT_FILE_PATH = './out/csv'
-INPUT_FILE_PATH = './inp/award_data_no_abstract.csv'
+INPUT_FILE_PATH = './inp/award_data_no_abstract.csv.zip'
 
 DEPARTMENTS = [
     "Department of Education",
