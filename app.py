@@ -36,6 +36,7 @@ def get_agencies_and_awards_data():
 
     return df.loc[DEPARTMENTS]
 
+@st.cache_data
 def agencies_awards_per_year_charts_tab():
      
      data = get_agencies_and_awards_data()
@@ -50,6 +51,7 @@ def agencies_awards_per_year_charts_tab():
         with tab2:
             st.line_chart(data, height=800)
 
+@st.cache_data
 def dei_bar_charts():
 
     data = [
@@ -62,14 +64,13 @@ def dei_bar_charts():
         tab1, tab2 = st.tabs(["Gender", "Economic Advantage"])
 
         with tab1:
-        
             st.bar_chart(data[0], horizontal=True, height=800)
         
         with tab2:
 
             st.bar_chart(data[1], horizontal=True, height=800)
         
-@st.cache_data
+
 def plot_agencies_and_awards():
 
     with st.expander('Awards Per Year Per Agency', expanded=True):
