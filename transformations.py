@@ -36,9 +36,12 @@ def get_agency_stats(df):
 
     return res
 
-def get_agencies_yearly_awards(df: DataFrame):
+
+def get_agencies_yearly_awards(df: DataFrame, inDollars=False):
 
     res = {}
+
+    df_locator = "Award Amount" if  inDollars else "Award Year"
 
     for agency in get_agencies(df):
 
@@ -46,10 +49,9 @@ def get_agencies_yearly_awards(df: DataFrame):
 
         agency_data = df.loc[df['Agency'] == agency]
 
-        for year in agency_data['Award Year']:
+        for year in agency_data[df_locator]:
             res[agency][year] += 1
 
-    # return DataFrame.from_dict(res).transpose().to_csv(f'{OUTPUT_FILE_PATH}/{datetime.now()}.csv')
     return DataFrame.from_dict(res).transpose()
 
 
