@@ -34,11 +34,13 @@ def get_agencies_and_awards_data():
 
     return df.loc[DEPARTMENTS]
 
-def charts_tab(data):
+def agencies_awards_per_year_charts_tab():
+     
+     data = get_agencies_and_awards_data()
 
      with st.container():
 
-        st.write("Awards Per Year, Agencies (X, Y)")
+        st.write("SBIR Awards Per Year, Agencies (X, Y)")
         
         tab1, tab2= st.tabs(["Bar Chart", "Line Chart"])
 
@@ -48,11 +50,37 @@ def charts_tab(data):
         with tab2:
             st.line_chart(data, height=800)
 
+def dei_bar_charts():
+
+    data = [
+        DataFrame.from_dict(get_agency_female_ownership_df(reduce_data(INPUT_FILE_PATH, None, PHASE1))).transpose(),
+        DataFrame.from_dict(get_agency_disadvantaged_ownership_df(reduce_data(INPUT_FILE_PATH, None, PHASE1))).transpose()
+    ]
+
+    with st.container():
+
+        st.write("DEI Award Distributions")
+
+        tab1, tab2 = st.tabs(["Gender", "Economic Advantage"])
+
+        with tab1:
+            
+            st.write('Disadvantaged, Advantaged, and Unknown Award Distribution per Agency')
+
+            st.bar_chart(data[0], horizontal=True, height=800)
+        
+        with tab2:
+
+            st.write('Female, Male, and Unknown Owned Award Distribution per Agency ')
+
+            st.bar_chart(data[1], horizontal=True, height=800)
+        
+    
 def plot_agencies_and_awards():
 
-    data = get_agencies_and_awards_data()
-    
-    charts_tab(data)
+    agencies_awards_per_year_charts_tab()
+
+    dei_bar_charts()
     
 def main():
 
