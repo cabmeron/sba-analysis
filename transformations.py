@@ -10,29 +10,6 @@ from datetime import datetime
 from dataclasses import asdict
 from collections import Counter, defaultdict
 
-def init(df: DataFrame):
-
-    return get_agency_stats(df)
-
-def get_agency_stats(df):
-
-    res = {}
-
-    for agency in get_agencies(df):
-        
-        agency_data = df.loc[df['Agency'] == agency]
-
-        res[agency] = {
-            # "pis": get_prinicpial_investigators(agency_data),
-            "male_owned": get_male_owned(agency_data),
-            "female_owned": get_female_owned(agency_data),
-            "unknown_owned": get_unknown_owned(agency_data),
-            # "awards_per_year": get_awards_per_year(agency_data),
-            # "companies_awarded": get_companies_awarded(agency_data),
-        }
-
-    return res
-
 def get_agency_female_ownership_df(df):
 
     res = {}
