@@ -55,7 +55,7 @@ def agencies_awards_per_year_charts_tab():
 def dei_bar_charts():
 
     data = [
-        DataFrame.from_dict(get_agency_female_ownership_df(reduce_data(INPUT_FILE_PATH, None, PHASE1))).transpose(),
+        DataFrame.from_dict(get_agencies_female_ownership_df(reduce_data(INPUT_FILE_PATH, None, PHASE1))).transpose(),
         DataFrame.from_dict(get_agency_disadvantaged_ownership_df(reduce_data(INPUT_FILE_PATH, None, PHASE1))).transpose()
     ]
 

@@ -10,7 +10,60 @@ from datetime import datetime
 from dataclasses import asdict
 from collections import Counter, defaultdict
 
-def get_agency_female_ownership_df(df):
+#######################################
+# MASTER DATA FRAME REDUCERS
+#######################################
+
+def get_agencies(df):
+    agencies = set()
+    for idx, series in df.iterrows():
+        agencies.add(series['Agency'])
+    return agencies
+
+def iterate(df: DataFrame):
+    Companies = defaultdict(list)
+    for idx, series in df.iterrows():
+
+        company = Company(
+            city = series['City'],
+            state = series['State'],
+            name = series['Company'],
+            website = series['Company Website'],
+            address = series['Address1'],
+            zip_code = series['Zip'],
+            )
+        
+
+        pi = PI(
+            name = series['PI Name'],
+            phone = series['PI Phone'],
+            email = series['PI Email'],
+            education_level = "Unknown"
+        )
+
+        award = Award(
+            pi=pi,
+            phase = series['Phase'],
+            agency = series['Agency'],
+            program = series['Program'],
+            topic_code = series['Topic Code'],
+            award_title = series['Award Title'],
+            award_year = series['Award Year'],
+            award_amount = series['Award Amount']
+        )
+
+        Companies[company.name].append(award)
+
+    data = jsonpickle.encode(Companies, indent=7)
+
+    with open('./json_output.json', "w") as outfile:
+        print(data, file=outfile)
+
+#######################################
+# STATISTIC AGGREGATORS FOR ALL AGENCY
+#######################################
+
+def get_agencies_female_ownership_df(df):
 
     res = {}
 
@@ -58,54 +111,6 @@ def get_agencies_yearly_awards(df: DataFrame, inDollars=False):
             res[agency][year] += 1
 
     return DataFrame.from_dict(res).transpose()
-
-
-def iterate(df: DataFrame):
-    Companies = defaultdict(list)
-    for idx, series in df.iterrows():
-
-        company = Company(
-            city = series['City'],
-            state = series['State'],
-            name = series['Company'],
-            website = series['Company Website'],
-            address = series['Address1'],
-            zip_code = series['Zip'],
-            )
-        
-
-        pi = PI(
-            name = series['PI Name'],
-            phone = series['PI Phone'],
-            email = series['PI Email'],
-            education_level = "Unknown"
-        )
-
-        award = Award(
-            pi=pi,
-            phase = series['Phase'],
-            agency = series['Agency'],
-            program = series['Program'],
-            topic_code = series['Topic Code'],
-            award_title = series['Award Title'],
-            award_year = series['Award Year'],
-            award_amount = series['Award Amount']
-        )
-
-        Companies[company.name].append(award)
-
-    data = jsonpickle.encode(Companies, indent=7)
-
-    with open('./json_output.json', "w") as outfile:
-        print(data, file=outfile)
-
-
-
-def get_agencies(df):
-    agencies = set()
-    for idx, series in df.iterrows():
-        agencies.add(series['Agency'])
-    return agencies
 
 """"""""""""""""""""""""""""""
 """ STATISTICAL GENERATORS """
