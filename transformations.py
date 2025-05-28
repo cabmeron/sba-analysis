@@ -1,6 +1,7 @@
 import copy
 import os
 import json
+import pandas as pd
 import jsonpickle
 from models import *
 from constants import *
@@ -15,13 +16,18 @@ from collections import Counter, defaultdict
 #######################################
 
 def get_agencies(df):
+
     agencies = set()
+
     for idx, series in df.iterrows():
         agencies.add(series['Agency'])
+
     return agencies
 
 def iterate(df: DataFrame):
+
     Companies = defaultdict(list)
+
     for idx, series in df.iterrows():
 
         company = Company(
@@ -60,7 +66,36 @@ def iterate(df: DataFrame):
         print(data, file=outfile)
 
 #######################################
-# STATISTIC AGGREGATORS FOR ALL AGENCY
+# STATISTIC AGGREGATORS FOR A SINGLE AGENCY
+#######################################
+
+def get_agency_absentee_pi_awards(df):
+
+    empty_award_by_department = Counter()
+
+    for idx, nxt in df.iterrows():
+       
+       if nxt['PI Name'] == '  ':
+           
+           empty_award_by_department[nxt['Agency']] += 1
+    
+    return DataFrame.from_dict(empty_award_by_department, orient='index', columns=['Agency'])
+
+def get_agency_top_awardees(df):
+
+    name_counter = Counter()
+
+    for idx, series in df.iterrows():
+        name_counter[series['PI Name']] += 1
+    
+    res = DataFrame.from_dict(name_counter.most_common(len(name_counter)))
+
+    res = res.rename(columns={0: "Name", 1: "# Awards"})
+
+    return res
+
+#######################################
+# STATISTIC AGGREGATORS FOR ALL AGENCIES
 #######################################
 
 def get_agencies_female_ownership_df(df):
@@ -157,4 +192,3 @@ def get_unknown_disadvantaged_owned(df):
     total_owned = len(df['Socially and Economically Disadvantaged'])
     disadvantaged_u = len(df.loc[df['Socially and Economically Disadvantaged'] == 'U'])
     return (disadvantaged_u / total_owned) * 100
-
