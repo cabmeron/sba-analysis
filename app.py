@@ -49,19 +49,21 @@ def render_top_awardees_dataframe():
 
     top_awardees_data = get_agency_top_awardees(df)
 
-    null_pi_awards_per_agency_data = get_absent_pi_awards_per_department()
+    null_pi_awards_per_agency_data, percent_undefined_data = get_absent_pi_awards_per_department()
 
     with st.container():
 
+        st.header("SBIR PHASE 1: Most Awarded PI's")
 
         st.dataframe(top_awardees_data)
 
-        st.text("Why over 5000 empty PI Names?")
-        st.text("What departments have the most Empty PI Names?")
+        st.subheader("Who is awarding undefined PI's?")
 
         st.bar_chart(null_pi_awards_per_agency_data)
 
-        st.text("What % of their awards does this represent?")
+        st.subheader("What % of their awards does this represent?")
+
+        st.bar_chart(percent_undefined_data)
 
 
 @st.cache_data
@@ -70,10 +72,13 @@ def render_agencies_awards_per_year_charts_tab():
      data = get_agencies_and_awards_data()
 
      with st.container():
+
+        st.header("SBIR PHASE 1: Awards per Agency")
         
         tab1, tab2= st.tabs(["Bar Chart", "Line Chart"])
 
         with tab1:
+            
             st.bar_chart(data, horizontal=True, height=800)
     
         with tab2:
@@ -89,6 +94,8 @@ def render_dei_bar_charts():
 
     with st.container():
 
+        st.header("SBIR PHASE 1: Awards for DEI")
+
         tab1, tab2 = st.tabs(["Gender", "Economic Advantage"])
 
         with tab1:
@@ -101,7 +108,7 @@ def render_dei_bar_charts():
 
 def plot_agencies_and_awards():
 
-    with st.expander('SBIR PHASE 1: Awards Per Year Per Agency', expanded=True):
+    with st.expander('SBIR PHASE 1: Awards Per Agency ', expanded=True):
 
         render_agencies_awards_per_year_charts_tab()
 

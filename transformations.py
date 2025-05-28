@@ -71,15 +71,24 @@ def iterate(df: DataFrame):
 
 def get_agency_absentee_pi_awards(df):
 
+    total_awards_by_department = Counter()
     empty_award_by_department = Counter()
 
     for idx, nxt in df.iterrows():
        
-       if nxt['PI Name'] == '  ':
+        if nxt['PI Name'] == '  ':
            
            empty_award_by_department[nxt['Agency']] += 1
-    
-    return DataFrame.from_dict(empty_award_by_department, orient='index', columns=['Agency'])
+
+        total_awards_by_department[nxt['Agency']] += 1
+
+    percent_undefined = {}
+
+    for department in DEPARTMENTS:
+
+        percent_undefined[department] = (empty_award_by_department[department] / total_awards_by_department[department]) * 100
+            
+    return [DataFrame.from_dict(empty_award_by_department, orient='index', columns=['Count']), DataFrame.from_dict(percent_undefined, orient='index')]
 
 def get_agency_top_awardees(df):
 
