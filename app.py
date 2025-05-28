@@ -36,8 +36,36 @@ def get_agencies_and_awards_data():
 
     return df.loc[DEPARTMENTS]
 
+def get_absent_pi_awards_per_department():
+
+    df = reduce_data(INPUT_FILE_PATH, None, PHASE1)
+
+    return get_agency_absentee_pi_awards(df)
+
 @st.cache_data
-def agencies_awards_per_year_charts_tab():
+def render_top_awardees_dataframe():
+
+    df = reduce_data(INPUT_FILE_PATH, None, PHASE1)
+
+    top_awardees_data = get_agency_top_awardees(df)
+
+    null_pi_awards_per_agency_data = get_absent_pi_awards_per_department()
+
+    with st.container():
+
+
+        st.dataframe(top_awardees_data)
+
+        st.text("Why over 5000 empty PI Names?")
+        st.text("What departments have the most Empty PI Names?")
+
+        st.bar_chart(null_pi_awards_per_agency_data)
+
+        st.text("What % of their awards does this represent?")
+
+
+@st.cache_data
+def render_agencies_awards_per_year_charts_tab():
      
      data = get_agencies_and_awards_data()
 
@@ -52,7 +80,7 @@ def agencies_awards_per_year_charts_tab():
             st.line_chart(data, height=800)
 
 @st.cache_data
-def dei_bar_charts():
+def render_dei_bar_charts():
 
     data = [
         DataFrame.from_dict(get_agencies_female_ownership_df(reduce_data(INPUT_FILE_PATH, None, PHASE1))).transpose(),
@@ -73,14 +101,18 @@ def dei_bar_charts():
 
 def plot_agencies_and_awards():
 
-    with st.expander('Awards Per Year Per Agency', expanded=True):
+    with st.expander('SBIR PHASE 1: Awards Per Year Per Agency', expanded=True):
 
-        agencies_awards_per_year_charts_tab()
+        render_agencies_awards_per_year_charts_tab()
 
-    with st.expander('DEI Award Distribtions Per Agency', expanded=True):
+    with st.expander('SBIR PHASE 1: DEI Award Distribtions Per Agency', expanded=True):
 
-        dei_bar_charts()
+        render_dei_bar_charts()
     
+    with st.expander('SBIR PHASE 1: Top Awardees', expanded=True):
+
+        render_top_awardees_dataframe()
+        
 def main():
 
     root_project_header()
