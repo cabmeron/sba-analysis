@@ -39,7 +39,6 @@ def iterate(df: DataFrame):
             zip_code = series['Zip'],
             )
         
-
         pi = PI(
             name = series['PI Name'],
             phone = series['PI Phone'],
